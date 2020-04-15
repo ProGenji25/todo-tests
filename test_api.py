@@ -5,7 +5,6 @@ import unittest
 
 from api import API
 
-
 def generate_random_text(l=10):
     """ Helper to generate random text for creating new tasks.
     This is helpful and will ensure that when you run your tests,
@@ -43,8 +42,8 @@ def generate_random_date(year=None, month=None, date=None):
 class TestAPI(unittest.TestCase):
 
     # TODO: update these two values with your own.
-    base_url = "http://localhost:2000" #http://nodejs-golde3.it210.it.et.byu.edu"
-    cookie = "s%3AwZCp9Z9MbMibO0nzNjc9EsErNDeJjIxX.Ak5SpJZapDBLPPEd29l1WG3Sd1Xijnghj1ayH4vHQ7Q"
+    base_url = "" #"http://localhost:2000" #http://nodejs-golde3.it210.it.et.byu.edu"
+    cookie = ""
 
     # This will be ran once, when you start your tests.
     @classmethod
@@ -53,17 +52,12 @@ class TestAPI(unittest.TestCase):
         self.api = API(self.base_url)
 
     #Tests for correct task requests
-    
     #@unittest.skip("not right now")
     def test_create_task(self):
         """ Tests creating a task is successful.
-        This is an example test:
             - Create the task w/dummy data
             - Verify that the task was created
             - Delete the task we created
-        You will be required to implement the other tests
-        that are defined in BaseTestCase. They will be marked
-        with @abc.abstractmethod.
         """
         Text = generate_random_text()
         Date = generate_random_date()
@@ -76,8 +70,6 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(task["Date"], Date, msg="The task's Date did not match the expected Date.")
         self.assertFalse(task["Done"], msg="The task's Done returned True, expected False.")
 
-        # cleanup - we don't want to conflict with other tests
-        # or have a test task in our database.
         self.api.delete_task(self.cookie, task["_id"])
 
     #@unittest.skip("not right now")
@@ -127,9 +119,7 @@ class TestAPI(unittest.TestCase):
         task = resp.json()
 
         for t in task:
-            self.assertEqual(task[0]["UserId"], t["UserId"])
-        # self.assertEqual(task[0]["_id"], task1["_id"], msg="The first task's ID did not match the expected ID.")
-        # self.assertEqual(task[1]["_id"], task2["_id"], msg="The second task's ID did not match the expected ID.")
+            self.assertEqual(task[0]["UserId"], t["UserId"], msg="The API should only send tasks belonging to this user")
         
         self.api.delete_task(self.cookie, task1["_id"])
         self.api.delete_task(self.cookie, task2["_id"])
@@ -147,8 +137,6 @@ class TestAPI(unittest.TestCase):
 
         resp = self.api.create_task(self.cookie, Text, Date)
         task = resp.json()
-        # resp = self.api.read_task(self.cookie, task["_id"])
-        # task = resp.json()
 
         resp = self.api.update_task(self.cookie, task["_id"], Done)
         self.assertTrue(resp.ok, msg=f"The Update Task failed: {resp.reason}.")

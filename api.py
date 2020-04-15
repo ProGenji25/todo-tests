@@ -110,9 +110,9 @@ class API(object):
         return response
 
 if __name__ == "__main__":
-    base_url = "http://localhost:2000" #http://nodejs-golde3.it210.it.et.byu.edu"
-    cookie = "s%3AwZCp9Z9MbMibO0nzNjc9EsErNDeJjIxX.Ak5SpJZapDBLPPEd29l1WG3Sd1Xijnghj1ayH4vHQ7Q"
-    test_id = "5e979254dbfa15588c27241a"
+    base_url = "" #"http://localhost:2000" #http://nodejs-golde3.it210.it.et.byu.edu"
+    cookie = ""
+    test_id = ""
     api = API(base_url)
     """
     response = api.create_task(cookie, "Test the API", "2020-04-20")
@@ -138,13 +138,13 @@ if __name__ == "__main__":
     print(response.status_code)
     print(response.text)
     print(response.json())
-    """
+    
     response = api.delete_task(cookie, test_id)
     print(response.ok)
     print(response.status_code)
     print(response.text)
     print(response.json())
-    """
+    
     response = api.get_user(cookie)
     print(response.ok)
     print(response.status_code)
